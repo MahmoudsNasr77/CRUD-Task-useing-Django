@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+<title>{% block title %}الصفحة الرئيسة{% endblock %}
+
+<main>
+    {% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">قائمة المهام</h1>
+
+        <div class="row">
+            {% for t in tasks %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body "{% if t.isCompleted %}style="color: rgba(0, 0, 0, 0.25);" {% endif %}>
+                        <h5 class="card-title">{{ t.title }}</h5>
+                        <p class="card-text"><strong>وصف المهمة:</strong> {{ t.description }}</p>
+                        <p class="card-text"><strong>الفئة:</strong> {{ t.category }}</p>
+                        <p class="card-text"><strong>تاريخ الاستحقاق:</strong> {{ t.dueDate }}</p>
+
+                        <!-- Checkbox for completion status -->
+                        <form method="POST" action="{% url 'tasks:update_task_status' t.id %}">
+                            {% csrf_token %}
+                            <p class="card-text"><strong>تمت المهمة:</strong> {% if t.isCompleted %}نعم{% else %}لا{% endif %}</p>
+
+                            <button type="submit" class="btn btn-primary mt-2" name="is_completed">
+                                تمت المهمه
+                            </button>
+                        </form>
+                        <a href="{% url 'tasks:delete_task' t.id %}">حذف المهمه</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+</main>
