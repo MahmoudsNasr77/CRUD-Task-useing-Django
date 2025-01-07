@@ -1,5 +1,6 @@
 from datetime import date
-from django.shortcuts import render,redirect
+from django.http import HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, render,redirect
 
 from .models import task
 from .forms import TaskForm
@@ -35,13 +36,16 @@ def add_task(request):
             return redirect('tasks:list_task') 
     form=TaskForm()        
     return render(request,'add_task.html',{'form':form})
-def update_task_status(request,id):
-    single_task=task.objects.get(id=id)
-    if request.method=='POST':
-        is_completed='is_completed' in request.POST
-        single_task.isCompleted=is_completed
-        single_task.save()
-        return redirect('tasks:list_task')
+def update_task_status(request, id):
+    if request.method != 'POST':
+        return HttpResponseBadRequest("Invalid request method.")
+
+    single_task = get_object_or_404(task, id=id)
+
+    # Toggle the task's completion status
+    single_task.isCompleted = not single_task.isCompleted
+    single_task.save()
+
     return redirect('tasks:list_task')
 def delete_task(request,id):
     single_task=task.objects.get(id=id)

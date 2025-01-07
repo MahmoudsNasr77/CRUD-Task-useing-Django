@@ -4,36 +4,47 @@
 
 {% block content %}
 <main>
-    <div class="container col-6">
+    <div class="container col-md-6 col-lg-4 mt-5">
         <h1 class="text-center mb-4">اضافة مهمة جديدة</h1>
 
-        <form method="POST">
+        <form method="POST" class="bg-light p-4 rounded shadow-sm">
             {% csrf_token %}
             
-            <!-- Render the form fields -->
+            <!-- Display any form errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p><strong>{{ field.label }}:</strong> {{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Render the form fields directly -->
             <div class="mb-4">
                 <label for="id_title" class="form-label">عنوان المهمة</label>
-                {{ form.title }}  <!-- Use form field rendering -->
+                {{ form.title }}
             </div>
 
-            <div class="mb-3  ">
+            <div class="mb-3">
                 <label for="id_description" class="form-label">وصف المهمة</label>
-                {{ form.descrption }}  <!-- Render form description field -->
+                {{ form.description }}
             </div>
 
             <div class="mb-3">
                 <label for="id_category" class="form-label">الفئة</label>
-                {{ form.category }}  <!-- Render form category field -->
+                {{ form.category }}
             </div>
 
             <div class="mb-3">
                 <label for="id_due_date" class="form-label">تاريخ الاستحقاق</label>
-                {{ form.dueDate }}  <!-- Render form due_date field -->
+                {{ form.dueDate }}
             </div>
 
-        
-
-            <button type="submit" class="btn btn-primary">تعديل المهمة</button>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">تعديل المهمة</button>
+            </div>
         </form>
     </div>
 </main>
