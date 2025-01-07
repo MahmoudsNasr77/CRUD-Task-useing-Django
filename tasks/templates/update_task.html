@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}اضافة مهمة{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container col-6">
+        <h1 class="text-center mb-4">اضافة مهمة جديدة</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Render the form fields -->
+            <div class="mb-4">
+                <label for="id_title" class="form-label">عنوان المهمة</label>
+                {{ form.title }}  <!-- Use form field rendering -->
+            </div>
+
+            <div class="mb-3  ">
+                <label for="id_description" class="form-label">وصف المهمة</label>
+                {{ form.descrption }}  <!-- Render form description field -->
+            </div>
+
+            <div class="mb-3">
+                <label for="id_category" class="form-label">الفئة</label>
+                {{ form.category }}  <!-- Render form category field -->
+            </div>
+
+            <div class="mb-3">
+                <label for="id_due_date" class="form-label">تاريخ الاستحقاق</label>
+                {{ form.dueDate }}  <!-- Render form due_date field -->
+            </div>
+
+        
+
+            <button type="submit" class="btn btn-primary">تعديل المهمة</button>
+        </form>
+    </div>
+</main>
+{% endblock %}
